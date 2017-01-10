@@ -9,16 +9,24 @@ function BinarySearchTree() {
 
 BinarySearchTree.prototype.insert = function (value) {
   let base = this;
-  let node = new BinarySearchTree(value);
-
-  if (base.value > value && base.left === undefined) {
-    base.left = node;
-  } else if (base.value < value && base.right === undefined) {
-    base.right = node;
-  } else if (base.value < value) {
-    base.left.add(value); //recursive
-  } else if (base.value > value) {
-    base.right.add(value);
+  const node = new BinarySearchTree(value);
+  
+  while (base !== null) {
+    if (base.value < value){
+      if (base.right !== null){
+        base = base.right;
+      } else {
+        base.right = node;
+        base = null;
+      }
+    } else {
+      if (base.left !== null){
+        base = base.left;
+      } else {
+        base.left = node;
+        base = null;
+      }
+    }
   }
 };
 
@@ -52,7 +60,7 @@ BinarySearchTree.prototype.depthFirstIn = function (callback) {
 };
 
 // applies a callback in order of depth first (post order)
-BinarySearchTree.prototype.dpethFirstPost = function (callback) {
+BinarySearchTree.prototype.depthFirstPost = function (callback) {
   let node = this;
 
   if (node.left) node.left.depthFirstPost(callback);
